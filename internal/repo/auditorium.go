@@ -47,12 +47,12 @@ func (r *AuditoriumRepo) DeleteAuditorium(id uint) error {
 	return nil
 }
 
-func (r *AuditoriumRepo) UpdateAuditorium(id uint, newauditorium entity.Auditorium) error {
+func (r *AuditoriumRepo) UpdateAuditorium(id uint, newAuditorium entity.Auditorium) error {
 	var auditorium entity.Auditorium
 	if err := r.db.First(&auditorium, id).Error; err != nil {
 		return err
 	}
-	if err := r.db.Model(&auditorium).Updates(newauditorium).Error; err != nil {
+	if err := r.db.Model(&auditorium).Updates(newAuditorium).Error; err != nil {
 		return err
 	}
 	return nil

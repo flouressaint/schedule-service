@@ -37,6 +37,7 @@ type Discipline interface {
 
 type Repositories struct {
 	Auditorium
+	Discipline
 	// User
 	// Todo
 }
@@ -59,7 +60,7 @@ func NewRepositories(config config.Config) *Repositories {
 
 	return &Repositories{
 		Auditorium: NewAuditoriumRepo(db),
-		Discipline: newDisciplineRepo(db),
+		Discipline: NewDisciplineRepo(db),
 		// User: NewUserRepo(db),
 		// Todo: NewTodoRepo(db),
 	}

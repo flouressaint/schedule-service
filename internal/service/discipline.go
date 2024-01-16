@@ -15,18 +15,18 @@ func NewDisciplineService(disciplineRepo repo.Discipline) *DisciplineService {
 	}
 }
 
-func (s *DisciplineService) Creatediscipline(discipline entity.Discipline) (uint, error) {
-	return s.disciplineRepo.Creatediscipline(discipline)
+func (s *DisciplineService) CreateDiscipline(discipline entity.Discipline) (uint, error) {
+	return s.disciplineRepo.CreateDiscipline(discipline)
 }
 
-func (s *DisciplineService) Getdisciplines() ([]entity.Discipline, error) {
-	return s.disciplineRepo.Getdisciplines()
+func (s *DisciplineService) GetDisciplines() ([]entity.Discipline, error) {
+	return s.disciplineRepo.GetDisciplines()
 }
 
-func (s *DisciplineService) Deletediscipline(id uint) error {
-	return s.disciplineRepo.Deletediscipline(id)
+func (s *DisciplineService) DeleteDiscipline(id uint) error {
+	return s.disciplineRepo.DeleteDiscipline(id)
 }
 
-func (s *DisciplineService) Updatediscipline(id uint, newdiscipline entity.Discipline) error {
-	return s.disciplineRepo.Updatediscipline(id, newdiscipline)
+func (s *DisciplineService) UpdateDiscipline(id uint, newdiscipline entity.Discipline) error {
+	return s.disciplineRepo.UpdateDiscipline(id, newdiscipline)
 }

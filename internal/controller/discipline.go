@@ -53,7 +53,7 @@ func (r *disciplineRoutes) CreateDiscipline(c echo.Context) error {
 		Name: input.Name,
 	}
 
-	id, err := r.disciplineService.Creatediscipline(data)
+	id, err := r.disciplineService.CreateDiscipline(data)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return err
@@ -78,7 +78,7 @@ func (r *disciplineRoutes) CreateDiscipline(c echo.Context) error {
 // @Security BearerAuth
 // @Router /api/discipline [get]
 func (r *disciplineRoutes) GetDisciplines(c echo.Context) error {
-	disciplines, err := r.disciplineService.Getdisciplines()
+	disciplines, err := r.disciplineService.GetDisciplines()
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return err
@@ -152,7 +152,7 @@ func (r *disciplineRoutes) UpdateDiscipline(c echo.Context) error {
 		Name: input.Name,
 	}
 
-	err = r.disciplineService.Updatediscipline(uint(id), data)
+	err = r.disciplineService.UpdateDiscipline(uint(id), data)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return err
