@@ -35,9 +35,17 @@ type Discipline interface {
 	UpdateDiscipline(id uint, discipline entity.Discipline) error
 }
 
+type Hometask interface {
+	CreateHometask(hometask entity.Hometask) (uint, error)
+	GetHometasks() ([]entity.Hometask, error)
+	DeleteHometask(id uint) error
+	UpdateHometask(id uint, hometask entity.Hometask) error
+}
+
 type Repositories struct {
 	Auditorium
 	Discipline
+	Hometask
 	// User
 	// Todo
 }
@@ -61,6 +69,7 @@ func NewRepositories(config config.Config) *Repositories {
 	return &Repositories{
 		Auditorium: NewAuditoriumRepo(db),
 		Discipline: NewDisciplineRepo(db),
+		Hometask:   NewHometaskRepo(db),
 		// User: NewUserRepo(db),
 		// Todo: NewTodoRepo(db),
 	}

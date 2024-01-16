@@ -16,8 +16,7 @@ type Lesson struct {
 	Discipline    Discipline
 	TeacherUserID uuid.UUID `json:"teacher_user_id" validate:"required" gorm:"type:uuid"`
 	StudyGroupID  uint      `json:"study_group_id" validate:"required" gorm:"type:int;not null"`
-	StudyGroup    StudyGroup
-	AuditoriumID  uint `json:"auditorium_id" validate:"required" gorm:"type:int;not null"`
+	AuditoriumID  uint      `json:"auditorium_id" validate:"required" gorm:"type:int;not null"`
 	Auditorium    Auditorium
 	HometaskID    uint `json:"hometask_id" validate:"required" gorm:"type:int;not null"`
 	Hometask      Hometask

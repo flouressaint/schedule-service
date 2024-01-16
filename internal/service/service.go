@@ -24,6 +24,13 @@ type Discipline interface {
 	UpdateDiscipline(id uint, discipline entity.Discipline) error
 }
 
+type Hometask interface {
+	CreateHometask(hometask entity.Hometask) (uint, error)
+	GetHometasks() ([]entity.Hometask, error)
+	DeleteHometask(id uint) error
+	UpdateHometask(id uint, hometask entity.Hometask) error
+}
+
 // type User interface {
 // 	CreateUser(user entity.User) (int, error)
 // }
@@ -41,6 +48,7 @@ type Services struct {
 	// Todo       Todo
 	Auditorium Auditorium
 	Discipline Discipline
+	Hometask   Hometask
 }
 
 type ServicesDependencies struct {
@@ -53,6 +61,7 @@ func NewServices(deps ServicesDependencies) *Services {
 		Auth:       NewAuthService(deps.Repo.User, deps.SignKey),
 		Auditorium: NewAuditoriumService(deps.Repo.Auditorium),
 		Discipline: NewDisciplineService(deps.Repo.Discipline),
+		Hometask:   NewHometaskService(deps.Repo.Hometask),
 		// User: NewUserService(deps.Repo.User),
 		// Todo: NewTodoService(deps.Repo.Todo),
 	}
