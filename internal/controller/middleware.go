@@ -55,6 +55,20 @@ func (h *AuthMiddleware) isAdmin(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
+func (h *AuthMiddleware) isTeacher(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		userRoles := c.Get(userRolesCtx).([]string)
+		for _, role := range userRoles {
+			if role == "teacher" {
+				return next(c)
+			}
+		}
+
+		newErrorResponse(c, http.StatusForbidden, "forbidden")
+		return nil
+	}
+}
+
 func bearerToken(r *http.Request) (string, bool) {
 	const prefix = "Bearer "
 
