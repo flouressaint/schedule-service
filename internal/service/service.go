@@ -17,6 +17,13 @@ type Auditorium interface {
 	UpdateAuditorium(id uint, auditorium entity.Auditorium) error
 }
 
+type Discipline interface {
+	CreateDiscipline(discipline entity.Discipline) (uint, error)
+	GetDisciplines() ([]entity.Discipline, error)
+	DeleteDiscipline(id uint) error
+	UpdateDiscipline(id uint, discipline entity.Discipline) error
+}
+
 // type User interface {
 // 	CreateUser(user entity.User) (int, error)
 // }
@@ -33,6 +40,7 @@ type Services struct {
 	// User       User
 	// Todo       Todo
 	Auditorium Auditorium
+	Discipline Discipline
 }
 
 type ServicesDependencies struct {
@@ -44,6 +52,7 @@ func NewServices(deps ServicesDependencies) *Services {
 	return &Services{
 		Auth:       NewAuthService(deps.Repo.User, deps.SignKey),
 		Auditorium: NewAuditoriumService(deps.Repo.Auditorium),
+		Discipline: NewDisciplineService(deps.Repo.Discipline),
 		// User: NewUserService(deps.Repo.User),
 		// Todo: NewTodoService(deps.Repo.Todo),
 	}

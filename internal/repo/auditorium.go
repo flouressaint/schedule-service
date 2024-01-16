@@ -4,7 +4,6 @@ import (
 	"log"
 
 	"github.com/flouressaint/schedule-service/internal/entity"
-	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -22,14 +21,14 @@ func NewAuditoriumRepo(db *gorm.DB) *AuditoriumRepo {
 	return &AuditoriumRepo{db}
 }
 
-func (r *AuditoriumRepo) Createauditorium(auditorium entity.Auditorium) (uint, error) {
+func (r *AuditoriumRepo) CreateAuditorium(auditorium entity.Auditorium) (uint, error) {
 	if err := r.db.Create(&auditorium).Error; err != nil {
 		return auditorium.ID, err
 	}
 	return auditorium.ID, nil
 }
 
-func (r *AuditoriumRepo) Getauditoriums() ([]entity.Auditorium, error) {
+func (r *AuditoriumRepo) GetAuditoriums() ([]entity.Auditorium, error) {
 	var auditoriums []entity.Auditorium
 	if err := r.db.Find(&auditoriums).Error; err != nil {
 		return auditoriums, err
@@ -48,7 +47,7 @@ func (r *AuditoriumRepo) DeleteAuditorium(id uint) error {
 	return nil
 }
 
-func (r *AuditoriumRepo) Updateauditorium(id uuid.UUID, newauditorium entity.Auditorium) error {
+func (r *AuditoriumRepo) UpdateAuditorium(id uint, newauditorium entity.Auditorium) error {
 	var auditorium entity.Auditorium
 	if err := r.db.First(&auditorium, id).Error; err != nil {
 		return err

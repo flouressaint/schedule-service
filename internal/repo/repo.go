@@ -28,6 +28,13 @@ type Auditorium interface {
 	UpdateAuditorium(id uint, auditorium entity.Auditorium) error
 }
 
+type Discipline interface {
+	CreateDiscipline(discipline entity.Discipline) (uint, error)
+	GetDisciplines() ([]entity.Discipline, error)
+	DeleteDiscipline(id uint) error
+	UpdateDiscipline(id uint, discipline entity.Discipline) error
+}
+
 type Repositories struct {
 	Auditorium
 	// User
@@ -52,6 +59,7 @@ func NewRepositories(config config.Config) *Repositories {
 
 	return &Repositories{
 		Auditorium: NewAuditoriumRepo(db),
+		Discipline: newDisciplineRepo(db),
 		// User: NewUserRepo(db),
 		// Todo: NewTodoRepo(db),
 	}

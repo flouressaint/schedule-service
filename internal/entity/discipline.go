@@ -6,5 +6,5 @@ import (
 
 type Discipline struct {
 	gorm.Model
-	Name string `json:"discipline_name" validate:"required" gorm:"type:varchar(255);not null"`
+	Name string `json:"name" validate:"required" gorm:"type:varchar(255);not null"`
 }
