@@ -20,6 +20,7 @@ func NewRouter(handler *echo.Echo, services *service.Services) {
 		{
 			newAuditoriumRoutes(admin.Group("/auditorium"), services.Auditorium)
 			newDisciplineRoutes(admin.Group("/discipline"), services.Discipline)
+			newLessonRoutes(admin.Group("/lesson"), services.Lesson)
 		}
 		teacher := api.Group("/teacher", authMiddleware.isTeacher)
 		{

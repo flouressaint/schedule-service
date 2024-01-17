@@ -42,10 +42,18 @@ type Hometask interface {
 	UpdateHometask(id uint, hometask entity.Hometask) error
 }
 
+type Lesson interface {
+	CreateLesson(lesson entity.Lesson) (uint, error)
+	GetLessons() ([]entity.Lesson, error)
+	DeleteLesson(id uint) error
+	UpdateLesson(id uint, lesson entity.Lesson) error
+}
+
 type Repositories struct {
 	Auditorium
 	Discipline
 	Hometask
+	Lesson
 	// User
 	// Todo
 }
@@ -70,6 +78,7 @@ func NewRepositories(config config.Config) *Repositories {
 		Auditorium: NewAuditoriumRepo(db),
 		Discipline: NewDisciplineRepo(db),
 		Hometask:   NewHometaskRepo(db),
+		Lesson:     NewLessonRepo(db),
 		// User: NewUserRepo(db),
 		// Todo: NewTodoRepo(db),
 	}
