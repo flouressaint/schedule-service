@@ -4,29 +4,155 @@ definitions:
     properties:
       message: {}
     type: object
-  github_com_flouressaint_todo-service_internal_entity.Todo:
+  github_com_flouressaint_schedule-service_internal_entity.Auditorium:
     properties:
-      completed:
-        type: boolean
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
       id:
+        type: integer
+      name:
         type: string
-      title:
-        type: string
-      user_id:
+      updatedAt:
         type: string
     required:
-    - title
+    - name
     type: object
-  internal_controller.todoInput:
+  github_com_flouressaint_schedule-service_internal_entity.Discipline:
     properties:
-      completed:
-        type: boolean
-      title:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      name:
+        type: string
+      updatedAt:
         type: string
     required:
-    - title
+    - name
     type: object
-  internal_controller.todoRoutes:
+  github_com_flouressaint_schedule-service_internal_entity.Hometask:
+    properties:
+      attachment:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+      updatedAt:
+        type: string
+    required:
+    - description
+    type: object
+  github_com_flouressaint_schedule-service_internal_entity.Lesson:
+    properties:
+      auditorium:
+        $ref: '#/definitions/github_com_flouressaint_schedule-service_internal_entity.Auditorium'
+      auditorium_id:
+        type: integer
+      createdAt:
+        type: string
+      date:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      discipline:
+        $ref: '#/definitions/github_com_flouressaint_schedule-service_internal_entity.Discipline'
+      discipline_id:
+        type: integer
+      duration:
+        type: integer
+      hometask:
+        $ref: '#/definitions/github_com_flouressaint_schedule-service_internal_entity.Hometask'
+      hometask_id:
+        type: integer
+      id:
+        type: integer
+      study_group_id:
+        type: integer
+      teacher_user_id:
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - auditorium_id
+    - date
+    - discipline_id
+    - duration
+    - hometask_id
+    - study_group_id
+    - teacher_user_id
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  internal_controller.auditoriumInput:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  internal_controller.auditoriumRoutes:
+    type: object
+  internal_controller.disciplineInput:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  internal_controller.disciplineRoutes:
+    type: object
+  internal_controller.hometaskInput:
+    properties:
+      attachment:
+        type: string
+      description:
+        type: string
+    required:
+    - description
+    type: object
+  internal_controller.hometaskRoutes:
+    type: object
+  internal_controller.lessonInput:
+    properties:
+      auditorium_id:
+        type: integer
+      date:
+        type: string
+      discipline_id:
+        type: integer
+      duration:
+        type: integer
+      hometask_id:
+        type: integer
+      study_group_id:
+        type: integer
+      teacher_user_id:
+        type: string
+    required:
+    - auditorium_id
+    - date
+    - discipline_id
+    - duration
+    - hometask_id
+    - study_group_id
+    - teacher_user_id
+    type: object
+  internal_controller.lessonRoutes:
     type: object
 host: localhost:8000
 info:
@@ -36,11 +162,11 @@ info:
   title: Todo Service
   version: "1.0"
 paths:
-  /api/todo:
+  /api/admin/lesson:
     get:
       consumes:
       - application/json
-      description: Get todos
+      description: Get lessons
       produces:
       - application/json
       responses:
@@ -48,7 +174,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/github_com_flouressaint_todo-service_internal_entity.Todo'
+              $ref: '#/definitions/github_com_flouressaint_schedule-service_internal_entity.Lesson'
             type: array
         "500":
           description: Internal Server Error
@@ -56,27 +182,27 @@ paths:
             $ref: '#/definitions/echo.HTTPError'
       security:
       - BearerAuth: []
-      summary: Get todos
+      summary: Get lessons
       tags:
-      - todos
+      - lessons
     post:
       consumes:
       - application/json
-      description: Create todo
+      description: Create lesson
       parameters:
       - description: input
         in: body
         name: input
         required: true
         schema:
-          $ref: '#/definitions/internal_controller.todoInput'
+          $ref: '#/definitions/internal_controller.lessonInput'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/internal_controller.todoRoutes'
+            $ref: '#/definitions/internal_controller.lessonRoutes'
         "400":
           description: Bad Request
           schema:
@@ -87,12 +213,12 @@ paths:
             $ref: '#/definitions/echo.HTTPError'
       security:
       - BearerAuth: []
-      summary: Create todo
+      summary: Create lesson
       tags:
-      - todos
-  /api/todo/{id}:
+      - lessons
+  /api/admin/lesson/{id}:
     delete:
-      description: Delete todo
+      description: Delete lesson
       parameters:
       - description: id
         in: path
@@ -105,7 +231,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_controller.todoRoutes'
+            $ref: '#/definitions/internal_controller.lessonRoutes'
         "400":
           description: Bad Request
           schema:
@@ -116,13 +242,13 @@ paths:
             $ref: '#/definitions/echo.HTTPError'
       security:
       - BearerAuth: []
-      summary: Delete todo
+      summary: Delete lesson
       tags:
-      - todos
+      - lessons
     put:
       consumes:
       - application/json
-      description: Update todo
+      description: Update lesson
       parameters:
       - description: id
         in: path
@@ -134,14 +260,14 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/internal_controller.todoInput'
+          $ref: '#/definitions/internal_controller.lessonInput'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_controller.todoRoutes'
+            $ref: '#/definitions/internal_controller.lessonRoutes'
         "400":
           description: Bad Request
           schema:
@@ -152,9 +278,366 @@ paths:
             $ref: '#/definitions/echo.HTTPError'
       security:
       - BearerAuth: []
-      summary: Update todo
+      summary: Update lesson
       tags:
-      - todos
+      - lessons
+  /api/auditorium:
+    get:
+      consumes:
+      - application/json
+      description: Get auditoriums
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_flouressaint_schedule-service_internal_entity.Auditorium'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      security:
+      - BearerAuth: []
+      summary: Get auditoriums
+      tags:
+      - auditoriums
+    post:
+      consumes:
+      - application/json
+      description: Create auditorium
+      parameters:
+      - description: input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/internal_controller.auditoriumInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_controller.auditoriumRoutes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      security:
+      - BearerAuth: []
+      summary: Create auditorium
+      tags:
+      - auditoriums
+  /api/auditorium/{id}:
+    delete:
+      description: Delete auditorium
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_controller.auditoriumRoutes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      security:
+      - BearerAuth: []
+      summary: Delete auditorium
+      tags:
+      - auditoriums
+    put:
+      consumes:
+      - application/json
+      description: Update auditorium
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/internal_controller.auditoriumInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_controller.auditoriumRoutes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      security:
+      - BearerAuth: []
+      summary: Update auditorium
+      tags:
+      - auditoriums
+  /api/discipline:
+    get:
+      consumes:
+      - application/json
+      description: Get disciplines
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_flouressaint_schedule-service_internal_entity.Discipline'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      security:
+      - BearerAuth: []
+      summary: Get disciplines
+      tags:
+      - disciplines
+    post:
+      consumes:
+      - application/json
+      description: Create discipline
+      parameters:
+      - description: input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/internal_controller.disciplineInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_controller.disciplineRoutes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      security:
+      - BearerAuth: []
+      summary: Create discipline
+      tags:
+      - disciplines
+  /api/discipline/{id}:
+    delete:
+      description: Delete discipline
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_controller.disciplineRoutes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      security:
+      - BearerAuth: []
+      summary: Delete discipline
+      tags:
+      - disciplines
+    put:
+      consumes:
+      - application/json
+      description: Update discipline
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/internal_controller.disciplineInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_controller.disciplineRoutes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      security:
+      - BearerAuth: []
+      summary: Update discipline
+      tags:
+      - disciplines
+  /api/teacher/hometask:
+    get:
+      consumes:
+      - application/json
+      description: Get hometasks
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_flouressaint_schedule-service_internal_entity.Hometask'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      security:
+      - BearerAuth: []
+      summary: Get hometasks
+      tags:
+      - hometasks
+    post:
+      consumes:
+      - application/json
+      description: Create hometask
+      parameters:
+      - description: input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/internal_controller.hometaskInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_controller.hometaskRoutes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      security:
+      - BearerAuth: []
+      summary: Create hometask
+      tags:
+      - hometasks
+  /api/teacher/hometask/{id}:
+    delete:
+      description: Delete hometask
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_controller.hometaskRoutes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      security:
+      - BearerAuth: []
+      summary: Delete hometask
+      tags:
+      - hometasks
+    put:
+      consumes:
+      - application/json
+      description: Update hometask
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/internal_controller.hometaskInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_controller.hometaskRoutes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      security:
+      - BearerAuth: []
+      summary: Update hometask
+      tags:
+      - hometasks
 securityDefinitions:
   BearerAuth:
     description: JWT token

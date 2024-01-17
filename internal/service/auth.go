@@ -39,7 +39,7 @@ func NewAuthService(signKey string) *AuthService {
 	}
 }
 
-func (s *AuthService) ParseToken(accessToken string) (uuid.UUID, interface{}, error) {
+func (s *AuthService) ParseToken(accessToken string) (uuid.UUID, []string, error) {
 	publicKey, err := parseKeycloakRSAPublicKey(s.signKey)
 	if err != nil {
 		panic(err)
@@ -65,8 +65,12 @@ func (s *AuthService) ParseToken(accessToken string) (uuid.UUID, interface{}, er
 
 	userId := uuid.MustParse(claims["sub"].(string))
 	userRoles := claims["realm_access"].(map[string]interface{})["roles"]
+	var rolesStr []string
+	for _, role := range userRoles.([]interface{}) {
+		rolesStr = append(rolesStr, role.(string))
+	}
 
-	return userId, userRoles, nil
+	return userId, rolesStr, nil
 }
 
 func parseKeycloakRSAPublicKey(base64Encoded string) (*rsa.PublicKey, error) {

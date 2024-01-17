@@ -15,9 +15,9 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @title           Todo Service
+// @title           Schedule Service
 // @version         1.0
-// @description     This is a service for managing todos.
+// @description     This is a service for managing timetable of classes.
 // @contact.name   Kadomtcev Vyacheslav
 // @contact.tg	   @flouressaint
 // @host      localhost:8000

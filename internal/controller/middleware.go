@@ -41,7 +41,7 @@ func (h *AuthMiddleware) UserIdentity(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
-func (h *AuthMiddleware) isAdmin(next echo.HandlerFunc) echo.HandlerFunc {
+func (h *AuthMiddleware) AdminIdentity(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		userRoles := c.Get(userRolesCtx).([]string)
 		for _, role := range userRoles {
@@ -55,7 +55,7 @@ func (h *AuthMiddleware) isAdmin(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
-func (h *AuthMiddleware) isTeacher(next echo.HandlerFunc) echo.HandlerFunc {
+func (h *AuthMiddleware) TeacherIdentity(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		userRoles := c.Get(userRolesCtx).([]string)
 		for _, role := range userRoles {

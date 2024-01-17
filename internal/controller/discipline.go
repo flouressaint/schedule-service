@@ -42,7 +42,7 @@ type disciplineInput struct {
 func (r *disciplineRoutes) CreateDiscipline(c echo.Context) error {
 	var input disciplineInput
 	if err := c.Bind(&input); err != nil {
-		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		newErrorResponse(c, http.StatusBadRequest, "invalid request body")
 		return err
 	}
 	if err := c.Validate(&input); err != nil {
@@ -73,7 +73,7 @@ func (r *disciplineRoutes) CreateDiscipline(c echo.Context) error {
 // @Tags disciplines
 // @Accept json
 // @Produce json
-// @Success 200 {array} entity.discipline
+// @Success 200 {array} entity.Discipline
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
 // @Router /api/discipline [get]
@@ -134,7 +134,7 @@ func (r *disciplineRoutes) DeleteDiscipline(c echo.Context) error {
 func (r *disciplineRoutes) UpdateDiscipline(c echo.Context) error {
 	var input disciplineInput
 	if err := c.Bind(&input); err != nil {
-		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		newErrorResponse(c, http.StatusBadRequest, "invalid request body")
 		return err
 	}
 	if err := c.Validate(&input); err != nil {

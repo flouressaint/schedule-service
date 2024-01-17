@@ -7,7 +7,7 @@ import (
 )
 
 type Auth interface {
-	ParseToken(accessToken string) (uuid.UUID, interface{}, error)
+	ParseToken(accessToken string) (uuid.UUID, []string, error)
 }
 
 type Auditorium interface {
@@ -66,7 +66,7 @@ type ServicesDependencies struct {
 
 func NewServices(deps ServicesDependencies) *Services {
 	return &Services{
-		Auth:       NewAuthService(deps.Repo.User, deps.SignKey),
+		Auth:       NewAuthService(deps.SignKey),
 		Auditorium: NewAuditoriumService(deps.Repo.Auditorium),
 		Discipline: NewDisciplineService(deps.Repo.Discipline),
 		Hometask:   NewHometaskService(deps.Repo.Hometask),

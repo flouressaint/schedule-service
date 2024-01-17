@@ -4,11 +4,10 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"gorm.io/gorm"
 )
 
 type Lesson struct {
-	gorm.Model
+	ID       uint      `json:"id" gorm:"primary_key"`
 	Date     time.Time `json:"date" validate:"required" gorm:"type:timestamp"`
 	Duration int       `json:"duration" validate:"required" gorm:"type:int;not null"`
 

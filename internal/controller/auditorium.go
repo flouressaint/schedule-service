@@ -42,7 +42,7 @@ type auditoriumInput struct {
 func (r *auditoriumRoutes) CreateAuditorium(c echo.Context) error {
 	var input auditoriumInput
 	if err := c.Bind(&input); err != nil {
-		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		newErrorResponse(c, http.StatusBadRequest, "invalid request body")
 		return err
 	}
 	if err := c.Validate(&input); err != nil {
@@ -73,7 +73,7 @@ func (r *auditoriumRoutes) CreateAuditorium(c echo.Context) error {
 // @Tags auditoriums
 // @Accept json
 // @Produce json
-// @Success 200 {array} entity.auditorium
+// @Success 200 {array} entity.Auditorium
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
 // @Router /api/auditorium [get]
@@ -134,7 +134,7 @@ func (r *auditoriumRoutes) DeleteAuditorium(c echo.Context) error {
 func (r *auditoriumRoutes) UpdateAuditorium(c echo.Context) error {
 	var input auditoriumInput
 	if err := c.Bind(&input); err != nil {
-		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		newErrorResponse(c, http.StatusBadRequest, "invalid request body")
 		return err
 	}
 	if err := c.Validate(&input); err != nil {

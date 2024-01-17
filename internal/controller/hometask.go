@@ -43,7 +43,7 @@ type hometaskInput struct {
 func (r *hometaskRoutes) CreateHometask(c echo.Context) error {
 	var input hometaskInput
 	if err := c.Bind(&input); err != nil {
-		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		newErrorResponse(c, http.StatusBadRequest, "invalid request body")
 		return err
 	}
 	if err := c.Validate(&input); err != nil {
@@ -136,7 +136,7 @@ func (r *hometaskRoutes) DeleteHometask(c echo.Context) error {
 func (r *hometaskRoutes) UpdateHometask(c echo.Context) error {
 	var input hometaskInput
 	if err := c.Bind(&input); err != nil {
-		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		newErrorResponse(c, http.StatusBadRequest, "invalid request body")
 		return err
 	}
 	if err := c.Validate(&input); err != nil {

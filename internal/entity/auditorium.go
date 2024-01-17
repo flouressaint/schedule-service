@@ -1,10 +1,6 @@
 package entity
 
-import (
-	"gorm.io/gorm"
-)
-
 type Auditorium struct {
-	gorm.Model
-	Name string `json:"name" validate:"required" gorm:"type:varchar(255);not null"`
+	ID   uint   `json:"id" gorm:"primary_key"`
+	Name string `json:"name" validate:"required" gorm:"unique;type:varchar(255);not null"`
 }

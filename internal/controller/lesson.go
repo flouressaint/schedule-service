@@ -51,7 +51,7 @@ type lessonInput struct {
 func (r *lessonRoutes) CreateLesson(c echo.Context) error {
 	var input lessonInput
 	if err := c.Bind(&input); err != nil {
-		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		newErrorResponse(c, http.StatusBadRequest, "invalid request body")
 		return err
 	}
 	if err := c.Validate(&input); err != nil {
@@ -149,7 +149,7 @@ func (r *lessonRoutes) DeleteLesson(c echo.Context) error {
 func (r *lessonRoutes) UpdateLesson(c echo.Context) error {
 	var input lessonInput
 	if err := c.Bind(&input); err != nil {
-		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		newErrorResponse(c, http.StatusBadRequest, "invalid request body")
 		return err
 	}
 	if err := c.Validate(&input); err != nil {
