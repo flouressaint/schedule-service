@@ -55,6 +55,20 @@ func (h *AuthMiddleware) AdminIdentity(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
+func (h *AuthMiddleware) StudentIdentity(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		userRoles := c.Get(userRolesCtx).([]string)
+		for _, role := range userRoles {
+			if role == "student" {
+				return next(c)
+			}
+		}
+
+		newErrorResponse(c, http.StatusForbidden, "forbidden")
+		return nil
+	}
+}
+
 func (h *AuthMiddleware) TeacherIdentity(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		userRoles := c.Get(userRolesCtx).([]string)

@@ -13,10 +13,12 @@ type hometaskRoutes struct {
 	hometaskService service.Hometask
 }
 
-func newHometaskRoutes(g *echo.Group, hometaskService service.Hometask) {
+func newHometaskRoutes(g *echo.Group, hometaskService service.Hometask, middleware ...echo.MiddlewareFunc) {
 	r := &hometaskRoutes{
 		hometaskService: hometaskService,
 	}
+
+	g.Use(middleware...)
 
 	g.POST("", r.CreateHometask)
 	g.GET("", r.GetHometasks)

@@ -13,10 +13,12 @@ type auditoriumRoutes struct {
 	auditoriumService service.Auditorium
 }
 
-func newAuditoriumRoutes(g *echo.Group, auditoriumService service.Auditorium) {
+func newAuditoriumRoutes(g *echo.Group, auditoriumService service.Auditorium, middleware ...echo.MiddlewareFunc) {
 	r := &auditoriumRoutes{
 		auditoriumService: auditoriumService,
 	}
+
+	g.Use(middleware...)
 
 	g.POST("", r.CreateAuditorium)
 	g.GET("", r.GetAuditoriums)

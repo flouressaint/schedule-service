@@ -13,10 +13,12 @@ type disciplineRoutes struct {
 	disciplineService service.Discipline
 }
 
-func newDisciplineRoutes(g *echo.Group, disciplineService service.Discipline) {
+func newDisciplineRoutes(g *echo.Group, disciplineService service.Discipline, middleware ...echo.MiddlewareFunc) {
 	r := &disciplineRoutes{
 		disciplineService: disciplineService,
 	}
+
+	g.Use(middleware...)
 
 	g.POST("", r.CreateDiscipline)
 	g.GET("", r.GetDisciplines)

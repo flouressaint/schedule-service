@@ -15,10 +15,12 @@ type lessonRoutes struct {
 	lessonService service.Lesson
 }
 
-func newLessonRoutes(g *echo.Group, lessonService service.Lesson) {
+func newLessonRoutes(g *echo.Group, lessonService service.Lesson, middleware ...echo.MiddlewareFunc) {
 	r := &lessonRoutes{
 		lessonService: lessonService,
 	}
+
+	g.Use(middleware...)
 
 	g.POST("", r.CreateLesson)
 	g.GET("", r.GetLessons)
@@ -26,13 +28,23 @@ func newLessonRoutes(g *echo.Group, lessonService service.Lesson) {
 	g.PUT("/:id", r.UpdateLesson)
 }
 
+func newLessonRoutesForStudent(g *echo.Group, lessonService service.Lesson, middleware ...echo.MiddlewareFunc) {
+	r := &lessonRoutes{
+		lessonService: lessonService,
+	}
+
+	g.Use(middleware...)
+
+	g.GET("", r.GetLessons)
+}
+
 type lessonInput struct {
 	Date     time.Time `json:"date" validate:"required" gorm:"type:timestamp"`
 	Duration int       `json:"duration" validate:"required" gorm:"type:int;not null"`
 
 	DisciplineID  uint      `json:"discipline_id" validate:"required" gorm:"type:int;not null"`
-	TeacherUserID uuid.UUID `json:"teacher_user_id" validate:"required" gorm:"type:uuid"`
-	StudyGroupID  uint      `json:"study_group_id" validate:"required" gorm:"type:int;not null"`
+	TeacherUserID uuid.UUID `json:"teacher_user_id" validate:"required" gorm:"type:uuid;not null"`
+	StudyGroupID  uuid.UUID `json:"study_group_id" validate:"required" gorm:"type:uuid;not null"`
 	AuditoriumID  uint      `json:"auditorium_id" validate:"required" gorm:"type:int;not null"`
 	HometaskID    uint      `json:"hometask_id" validate:"required" gorm:"type:int;not null"`
 }

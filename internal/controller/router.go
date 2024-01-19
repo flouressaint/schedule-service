@@ -16,18 +16,16 @@ func NewRouter(handler *echo.Echo, services *service.Services) {
 	authMiddleware := &AuthMiddleware{services.Auth}
 	api := handler.Group("/api", authMiddleware.UserIdentity)
 	{
-		admin := api.Group("/admin", authMiddleware.AdminIdentity)
-		{
-			newAuditoriumRoutes(admin.Group("/auditorium"), services.Auditorium)
-			newDisciplineRoutes(admin.Group("/discipline"), services.Discipline)
-			newLessonRoutes(admin.Group("/lesson"), services.Lesson)
-		}
-		teacher := api.Group("/teacher", authMiddleware.TeacherIdentity)
-		{
-			newHometaskRoutes(teacher.Group("/hometask"), services.Hometask)
-		}
+		// admin
+		newAuditoriumRoutes(api.Group("/auditorium"), services.Auditorium, authMiddleware.AdminIdentity)
+		newDisciplineRoutes(api.Group("/discipline"), services.Discipline, authMiddleware.AdminIdentity)
+		newLessonRoutes(api.Group("/lesson"), services.Lesson, authMiddleware.AdminIdentity)
 
-		// newTodoRoutes(api.Group("/todo"), services.Todo)
+		// teacher
+		newHometaskRoutes(api.Group("/hometask"), services.Hometask, authMiddleware.TeacherIdentity)
+
+		// student
+		newLessonRoutesForStudent(api.Group("/lesson"), services.Lesson, authMiddleware.StudentIdentity)
 	}
 
 }

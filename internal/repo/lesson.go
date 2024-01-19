@@ -22,7 +22,7 @@ func NewLessonRepo(db *gorm.DB) *LessonRepo {
 }
 
 func (r *LessonRepo) CreateLesson(lesson entity.Lesson) (uint, error) {
-	if err := r.db.Create(&lesson).Error; err != nil {
+	if err := r.db.Preload("Discipline").Preload("Hometask").Preload("Auditorium").Create(&lesson).Error; err != nil {
 		return lesson.ID, err
 	}
 	return lesson.ID, nil
@@ -30,7 +30,7 @@ func (r *LessonRepo) CreateLesson(lesson entity.Lesson) (uint, error) {
 
 func (r *LessonRepo) GetLessons() ([]entity.Lesson, error) {
 	var lessons []entity.Lesson
-	if err := r.db.Find(&lessons).Error; err != nil {
+	if err := r.db.Preload("Discipline").Preload("Hometask").Preload("Auditorium").Find(&lessons).Error; err != nil {
 		return lessons, err
 	}
 	return lessons, nil
