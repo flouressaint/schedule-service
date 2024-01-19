@@ -51,15 +51,16 @@ type lessonInput struct {
 
 // @Summary Create lesson
 // @Description Create lesson
-// @Tags lessons
+// @Tags lesson
 // @Accept json
 // @Produce json
 // @Param input body lessonInput true "input"
 // @Success 201 {object} controller.lessonRoutes.CreateLesson.response
 // @Failure 400 {object} echo.HTTPError
+// @Failure 401 {object} echo.HTTPError
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
-// @Router /api/admin/lesson [post]
+// @Router /api/lesson [post]
 func (r *lessonRoutes) CreateLesson(c echo.Context) error {
 	var input lessonInput
 	if err := c.Bind(&input); err != nil {
@@ -97,13 +98,14 @@ func (r *lessonRoutes) CreateLesson(c echo.Context) error {
 
 // @Summary Get lessons
 // @Description Get lessons
-// @Tags lessons
+// @Tags lesson
 // @Accept json
 // @Produce json
 // @Success 200 {array} entity.Lesson
+// @Failure 401 {object} echo.HTTPError
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
-// @Router /api/admin/lesson [get]
+// @Router /api/lesson [get]
 func (r *lessonRoutes) GetLessons(c echo.Context) error {
 	lessons, err := r.lessonService.GetLessons()
 	if err != nil {
@@ -116,14 +118,15 @@ func (r *lessonRoutes) GetLessons(c echo.Context) error {
 
 // @Summary Delete lesson
 // @Description Delete lesson
-// @Tags lessons
+// @Tags lesson
 // @Produce json
 // @Param id path string true "id"
 // @Success 200 {object} controller.lessonRoutes.DeleteLesson.response
 // @Failure 400 {object} echo.HTTPError
+// @Failure 401 {object} echo.HTTPError
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
-// @Router /api/admin/lesson/{id} [delete]
+// @Router /api/lesson/{id} [delete]
 func (r *lessonRoutes) DeleteLesson(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -148,16 +151,17 @@ func (r *lessonRoutes) DeleteLesson(c echo.Context) error {
 
 // @Summary Update lesson
 // @Description Update lesson
-// @Tags lessons
+// @Tags lesson
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
 // @Param input body lessonInput true "input"
 // @Success 200 {object} controller.lessonRoutes.UpdateLesson.response
 // @Failure 400 {object} echo.HTTPError
+// @Failure 401 {object} echo.HTTPError
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
-// @Router /api/admin/lesson/{id} [put]
+// @Router /api/lesson/{id} [put]
 func (r *lessonRoutes) UpdateLesson(c echo.Context) error {
 	var input lessonInput
 	if err := c.Bind(&input); err != nil {

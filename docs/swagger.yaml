@@ -6,30 +6,18 @@ definitions:
     type: object
   github_com_flouressaint_schedule-service_internal_entity.Auditorium:
     properties:
-      createdAt:
-        type: string
-      deletedAt:
-        $ref: '#/definitions/gorm.DeletedAt'
       id:
         type: integer
       name:
-        type: string
-      updatedAt:
         type: string
     required:
     - name
     type: object
   github_com_flouressaint_schedule-service_internal_entity.Discipline:
     properties:
-      createdAt:
-        type: string
-      deletedAt:
-        $ref: '#/definitions/gorm.DeletedAt'
       id:
         type: integer
       name:
-        type: string
-      updatedAt:
         type: string
     required:
     - name
@@ -38,16 +26,10 @@ definitions:
     properties:
       attachment:
         type: string
-      createdAt:
-        type: string
-      deletedAt:
-        $ref: '#/definitions/gorm.DeletedAt'
       description:
         type: string
       id:
         type: integer
-      updatedAt:
-        type: string
     required:
     - description
     type: object
@@ -57,12 +39,8 @@ definitions:
         $ref: '#/definitions/github_com_flouressaint_schedule-service_internal_entity.Auditorium'
       auditorium_id:
         type: integer
-      createdAt:
-        type: string
       date:
         type: string
-      deletedAt:
-        $ref: '#/definitions/gorm.DeletedAt'
       discipline:
         $ref: '#/definitions/github_com_flouressaint_schedule-service_internal_entity.Discipline'
       discipline_id:
@@ -76,10 +54,8 @@ definitions:
       id:
         type: integer
       study_group_id:
-        type: integer
-      teacher_user_id:
         type: string
-      updatedAt:
+      teacher_user_id:
         type: string
     required:
     - auditorium_id
@@ -89,14 +65,6 @@ definitions:
     - hometask_id
     - study_group_id
     - teacher_user_id
-    type: object
-  gorm.DeletedAt:
-    properties:
-      time:
-        type: string
-      valid:
-        description: Valid is true if Time is not NULL
-        type: boolean
     type: object
   internal_controller.auditoriumInput:
     properties:
@@ -140,7 +108,7 @@ definitions:
       hometask_id:
         type: integer
       study_group_id:
-        type: integer
+        type: string
       teacher_user_id:
         type: string
     required:
@@ -154,133 +122,14 @@ definitions:
     type: object
   internal_controller.lessonRoutes:
     type: object
-host: localhost:8000
+host: 127.0.0.1:8000
 info:
   contact:
     name: Kadomtcev Vyacheslav
-  description: This is a service for managing todos.
-  title: Todo Service
+  description: This is a service for managing timetable of classes.
+  title: Schedule Service
   version: "1.0"
 paths:
-  /api/admin/lesson:
-    get:
-      consumes:
-      - application/json
-      description: Get lessons
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/github_com_flouressaint_schedule-service_internal_entity.Lesson'
-            type: array
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/echo.HTTPError'
-      security:
-      - BearerAuth: []
-      summary: Get lessons
-      tags:
-      - lessons
-    post:
-      consumes:
-      - application/json
-      description: Create lesson
-      parameters:
-      - description: input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/internal_controller.lessonInput'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/internal_controller.lessonRoutes'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/echo.HTTPError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/echo.HTTPError'
-      security:
-      - BearerAuth: []
-      summary: Create lesson
-      tags:
-      - lessons
-  /api/admin/lesson/{id}:
-    delete:
-      description: Delete lesson
-      parameters:
-      - description: id
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/internal_controller.lessonRoutes'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/echo.HTTPError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/echo.HTTPError'
-      security:
-      - BearerAuth: []
-      summary: Delete lesson
-      tags:
-      - lessons
-    put:
-      consumes:
-      - application/json
-      description: Update lesson
-      parameters:
-      - description: id
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: input
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/internal_controller.lessonInput'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/internal_controller.lessonRoutes'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/echo.HTTPError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/echo.HTTPError'
-      security:
-      - BearerAuth: []
-      summary: Update lesson
-      tags:
-      - lessons
   /api/auditorium:
     get:
       consumes:
@@ -295,6 +144,10 @@ paths:
             items:
               $ref: '#/definitions/github_com_flouressaint_schedule-service_internal_entity.Auditorium'
             type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
         "500":
           description: Internal Server Error
           schema:
@@ -303,7 +156,7 @@ paths:
       - BearerAuth: []
       summary: Get auditoriums
       tags:
-      - auditoriums
+      - auditorium
     post:
       consumes:
       - application/json
@@ -326,6 +179,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/echo.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
         "500":
           description: Internal Server Error
           schema:
@@ -334,7 +191,7 @@ paths:
       - BearerAuth: []
       summary: Create auditorium
       tags:
-      - auditoriums
+      - auditorium
   /api/auditorium/{id}:
     delete:
       description: Delete auditorium
@@ -355,6 +212,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/echo.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
         "500":
           description: Internal Server Error
           schema:
@@ -363,7 +224,7 @@ paths:
       - BearerAuth: []
       summary: Delete auditorium
       tags:
-      - auditoriums
+      - auditorium
     put:
       consumes:
       - application/json
@@ -391,6 +252,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/echo.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
         "500":
           description: Internal Server Error
           schema:
@@ -399,7 +264,7 @@ paths:
       - BearerAuth: []
       summary: Update auditorium
       tags:
-      - auditoriums
+      - auditorium
   /api/discipline:
     get:
       consumes:
@@ -414,6 +279,10 @@ paths:
             items:
               $ref: '#/definitions/github_com_flouressaint_schedule-service_internal_entity.Discipline'
             type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
         "500":
           description: Internal Server Error
           schema:
@@ -422,7 +291,7 @@ paths:
       - BearerAuth: []
       summary: Get disciplines
       tags:
-      - disciplines
+      - discipline
     post:
       consumes:
       - application/json
@@ -445,6 +314,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/echo.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
         "500":
           description: Internal Server Error
           schema:
@@ -453,7 +326,7 @@ paths:
       - BearerAuth: []
       summary: Create discipline
       tags:
-      - disciplines
+      - discipline
   /api/discipline/{id}:
     delete:
       description: Delete discipline
@@ -474,6 +347,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/echo.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
         "500":
           description: Internal Server Error
           schema:
@@ -482,7 +359,7 @@ paths:
       - BearerAuth: []
       summary: Delete discipline
       tags:
-      - disciplines
+      - discipline
     put:
       consumes:
       - application/json
@@ -510,6 +387,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/echo.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
         "500":
           description: Internal Server Error
           schema:
@@ -518,8 +399,8 @@ paths:
       - BearerAuth: []
       summary: Update discipline
       tags:
-      - disciplines
-  /api/teacher/hometask:
+      - discipline
+  /api/hometask:
     get:
       consumes:
       - application/json
@@ -533,6 +414,10 @@ paths:
             items:
               $ref: '#/definitions/github_com_flouressaint_schedule-service_internal_entity.Hometask'
             type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
         "500":
           description: Internal Server Error
           schema:
@@ -541,7 +426,7 @@ paths:
       - BearerAuth: []
       summary: Get hometasks
       tags:
-      - hometasks
+      - hometask
     post:
       consumes:
       - application/json
@@ -564,6 +449,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/echo.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
         "500":
           description: Internal Server Error
           schema:
@@ -572,8 +461,8 @@ paths:
       - BearerAuth: []
       summary: Create hometask
       tags:
-      - hometasks
-  /api/teacher/hometask/{id}:
+      - hometask
+  /api/hometask/{id}:
     delete:
       description: Delete hometask
       parameters:
@@ -593,6 +482,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/echo.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
         "500":
           description: Internal Server Error
           schema:
@@ -601,7 +494,7 @@ paths:
       - BearerAuth: []
       summary: Delete hometask
       tags:
-      - hometasks
+      - hometask
     put:
       consumes:
       - application/json
@@ -629,6 +522,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/echo.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
         "500":
           description: Internal Server Error
           schema:
@@ -637,7 +534,142 @@ paths:
       - BearerAuth: []
       summary: Update hometask
       tags:
-      - hometasks
+      - hometask
+  /api/lesson:
+    get:
+      consumes:
+      - application/json
+      description: Get lessons
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_flouressaint_schedule-service_internal_entity.Lesson'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      security:
+      - BearerAuth: []
+      summary: Get lessons
+      tags:
+      - lesson
+    post:
+      consumes:
+      - application/json
+      description: Create lesson
+      parameters:
+      - description: input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/internal_controller.lessonInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_controller.lessonRoutes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      security:
+      - BearerAuth: []
+      summary: Create lesson
+      tags:
+      - lesson
+  /api/lesson/{id}:
+    delete:
+      description: Delete lesson
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_controller.lessonRoutes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      security:
+      - BearerAuth: []
+      summary: Delete lesson
+      tags:
+      - lesson
+    put:
+      consumes:
+      - application/json
+      description: Update lesson
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/internal_controller.lessonInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_controller.lessonRoutes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      security:
+      - BearerAuth: []
+      summary: Update lesson
+      tags:
+      - lesson
 securityDefinitions:
   BearerAuth:
     description: JWT token

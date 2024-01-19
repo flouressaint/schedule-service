@@ -32,12 +32,13 @@ type auditoriumInput struct {
 
 // @Summary Create auditorium
 // @Description Create auditorium
-// @Tags auditoriums
+// @Tags auditorium
 // @Accept json
 // @Produce json
 // @Param input body auditoriumInput true "input"
 // @Success 201 {object} controller.auditoriumRoutes.CreateAuditorium.response
 // @Failure 400 {object} echo.HTTPError
+// @Failure 401 {object} echo.HTTPError
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
 // @Router /api/auditorium [post]
@@ -72,10 +73,11 @@ func (r *auditoriumRoutes) CreateAuditorium(c echo.Context) error {
 
 // @Summary Get auditoriums
 // @Description Get auditoriums
-// @Tags auditoriums
+// @Tags auditorium
 // @Accept json
 // @Produce json
 // @Success 200 {array} entity.Auditorium
+// @Failure 401 {object} echo.HTTPError
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
 // @Router /api/auditorium [get]
@@ -91,11 +93,12 @@ func (r *auditoriumRoutes) GetAuditoriums(c echo.Context) error {
 
 // @Summary Delete auditorium
 // @Description Delete auditorium
-// @Tags auditoriums
+// @Tags auditorium
 // @Produce json
 // @Param id path string true "id"
 // @Success 200 {object} controller.auditoriumRoutes.Deleteauditorium.response
 // @Failure 400 {object} echo.HTTPError
+// @Failure 401 {object} echo.HTTPError
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
 // @Router /api/auditorium/{id} [delete]
@@ -123,13 +126,14 @@ func (r *auditoriumRoutes) DeleteAuditorium(c echo.Context) error {
 
 // @Summary Update auditorium
 // @Description Update auditorium
-// @Tags auditoriums
+// @Tags auditorium
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
 // @Param input body auditoriumInput true "input"
 // @Success 200 {object} controller.auditoriumRoutes.Updateauditorium.response
 // @Failure 400 {object} echo.HTTPError
+// @Failure 401 {object} echo.HTTPError
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
 // @Router /api/auditorium/{id} [put]

@@ -73,7 +73,7 @@ func (h *AuthMiddleware) TeacherIdentity(next echo.HandlerFunc) echo.HandlerFunc
 	return func(c echo.Context) error {
 		userRoles := c.Get(userRolesCtx).([]string)
 		for _, role := range userRoles {
-			if role == "teacher" {
+			if role == "teacher" || role == "admin" {
 				return next(c)
 			}
 		}

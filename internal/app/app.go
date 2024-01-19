@@ -20,7 +20,7 @@ import (
 // @description     This is a service for managing timetable of classes.
 // @contact.name   Kadomtcev Vyacheslav
 // @contact.tg	   @flouressaint
-// @host      localhost:8000
+// @host      127.0.0.1:8000
 // @BasePath  /
 // @securityDefinitions.apikey  BearerAuth
 // @in                          header

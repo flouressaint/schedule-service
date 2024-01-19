@@ -33,15 +33,16 @@ type hometaskInput struct {
 
 // @Summary Create hometask
 // @Description Create hometask
-// @Tags hometasks
+// @Tags hometask
 // @Accept json
 // @Produce json
 // @Param input body hometaskInput true "input"
 // @Success 201 {object} controller.hometaskRoutes.CreateHometask.response
 // @Failure 400 {object} echo.HTTPError
+// @Failure 401 {object} echo.HTTPError
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
-// @Router /api/teacher/hometask [post]
+// @Router /api/hometask [post]
 func (r *hometaskRoutes) CreateHometask(c echo.Context) error {
 	var input hometaskInput
 	if err := c.Bind(&input); err != nil {
@@ -74,13 +75,14 @@ func (r *hometaskRoutes) CreateHometask(c echo.Context) error {
 
 // @Summary Get hometasks
 // @Description Get hometasks
-// @Tags hometasks
+// @Tags hometask
 // @Accept json
 // @Produce json
 // @Success 200 {array} entity.Hometask
+// @Failure 401 {object} echo.HTTPError
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
-// @Router /api/teacher/hometask [get]
+// @Router /api/hometask [get]
 func (r *hometaskRoutes) GetHometasks(c echo.Context) error {
 	hometasks, err := r.hometaskService.GetHometasks()
 	if err != nil {
@@ -93,14 +95,15 @@ func (r *hometaskRoutes) GetHometasks(c echo.Context) error {
 
 // @Summary Delete hometask
 // @Description Delete hometask
-// @Tags hometasks
+// @Tags hometask
 // @Produce json
 // @Param id path string true "id"
 // @Success 200 {object} controller.hometaskRoutes.DeleteHometask.response
 // @Failure 400 {object} echo.HTTPError
+// @Failure 401 {object} echo.HTTPError
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
-// @Router /api/teacher/hometask/{id} [delete]
+// @Router /api/hometask/{id} [delete]
 func (r *hometaskRoutes) DeleteHometask(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -125,16 +128,17 @@ func (r *hometaskRoutes) DeleteHometask(c echo.Context) error {
 
 // @Summary Update hometask
 // @Description Update hometask
-// @Tags hometasks
+// @Tags hometask
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
 // @Param input body hometaskInput true "input"
 // @Success 200 {object} controller.hometaskRoutes.UpdateHometask.response
 // @Failure 400 {object} echo.HTTPError
+// @Failure 401 {object} echo.HTTPError
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
-// @Router /api/teacher/hometask/{id} [put]
+// @Router /api/hometask/{id} [put]
 func (r *hometaskRoutes) UpdateHometask(c echo.Context) error {
 	var input hometaskInput
 	if err := c.Bind(&input); err != nil {

@@ -11,8 +11,6 @@ func NewRouter(handler *echo.Echo, services *service.Services) {
 	handler.GET("/health", func(c echo.Context) error { return c.NoContent(200) })
 	handler.GET("/swagger/*", echoSwagger.WrapHandler)
 
-	// newUserRoutes(handler.Group("/user"), services.User)
-
 	authMiddleware := &AuthMiddleware{services.Auth}
 	api := handler.Group("/api", authMiddleware.UserIdentity)
 	{
@@ -24,8 +22,8 @@ func NewRouter(handler *echo.Echo, services *service.Services) {
 		// teacher
 		newHometaskRoutes(api.Group("/hometask"), services.Hometask, authMiddleware.TeacherIdentity)
 
-		// student
-		newLessonRoutesForStudent(api.Group("/lesson"), services.Lesson, authMiddleware.StudentIdentity)
+		// student and others
+		newLessonRoutesForStudent(api.Group("/lesson"), services.Lesson)
 	}
 
 }

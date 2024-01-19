@@ -32,12 +32,13 @@ type disciplineInput struct {
 
 // @Summary Create discipline
 // @Description Create discipline
-// @Tags disciplines
+// @Tags discipline
 // @Accept json
 // @Produce json
 // @Param input body disciplineInput true "input"
 // @Success 201 {object} controller.disciplineRoutes.Creatediscipline.response
 // @Failure 400 {object} echo.HTTPError
+// @Failure 401 {object} echo.HTTPError
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
 // @Router /api/discipline [post]
@@ -72,10 +73,11 @@ func (r *disciplineRoutes) CreateDiscipline(c echo.Context) error {
 
 // @Summary Get disciplines
 // @Description Get disciplines
-// @Tags disciplines
+// @Tags discipline
 // @Accept json
 // @Produce json
 // @Success 200 {array} entity.Discipline
+// @Failure 401 {object} echo.HTTPError
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
 // @Router /api/discipline [get]
@@ -91,11 +93,12 @@ func (r *disciplineRoutes) GetDisciplines(c echo.Context) error {
 
 // @Summary Delete discipline
 // @Description Delete discipline
-// @Tags disciplines
+// @Tags discipline
 // @Produce json
 // @Param id path string true "id"
 // @Success 200 {object} controller.disciplineRoutes.Deletediscipline.response
 // @Failure 400 {object} echo.HTTPError
+// @Failure 401 {object} echo.HTTPError
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
 // @Router /api/discipline/{id} [delete]
@@ -123,13 +126,14 @@ func (r *disciplineRoutes) DeleteDiscipline(c echo.Context) error {
 
 // @Summary Update discipline
 // @Description Update discipline
-// @Tags disciplines
+// @Tags discipline
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
 // @Param input body disciplineInput true "input"
 // @Success 200 {object} controller.disciplineRoutes.Updatediscipline.response
 // @Failure 400 {object} echo.HTTPError
+// @Failure 401 {object} echo.HTTPError
 // @Failure 500 {object} echo.HTTPError
 // @Security BearerAuth
 // @Router /api/discipline/{id} [put]
