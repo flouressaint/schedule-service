@@ -86,6 +86,3 @@
 *   Таблица "lessons" связана с таблицами "users" (через `teacher_user_id`), "discipline" (через `discipline_id)`), "study_group" (через `study_group_id`), "auditorium" (через `auditorium_id`), "hometask" (через `hometask_id`).
 ### Логическая модель базы данных
 ![Alt text](assets/README/schedule-service.drawio.png)
-
-### Физическая модель Базы данных
-Физическая модель и наполнение таблиц базы данных представлено в файле [backup.dump](backup.dump)
